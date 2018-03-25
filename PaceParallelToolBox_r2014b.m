@@ -189,7 +189,7 @@ if debug
     debugMatlab(currEnv);
 end
 
-if (maxCores < 2) || (desiredCores < 2);%Don't open pools < 2 cores, but return memory information.
+if (maxCores < 2) || (desiredCores < 2)%Don't open pools < 2 cores, but return memory information.
     fprintf('Poolsize is equal to or less than 1, not opening matlab pool. \n')
     return
 end
@@ -215,7 +215,7 @@ elseif strcmp(currEnv,'SAVIOcluster')
 end
 
 %% Check if pool is already created that is of desired size
-if currCores == desiredCores;
+if currCores == desiredCores
     fprintf('Matlabpool already created.\n')
     return
 end
@@ -231,14 +231,14 @@ end
 
 %% Open the matlab pool (start the headless versions of matlab)
 if sum( strcmp(currEnv,{'PCWIN','PCWIN64','MACI64','GLNXA64'}) )>0
-    if desiredCores==totalCores;
+    if desiredCores==totalCores
         fprintf(['%u cores available, using the max of %u cores ',... 
             '(no multitask).\n'], totalCores, desiredCores)
-    else desiredCores<totalCores;
+    elseif desiredCores<totalCores
         fprintf(['%u cores available, using only %u core(s), ('...
             'useful for multitasking).\n'],totalCores, desiredCores)
     end
-    if currVer == 8.2;
+    if currVer == 8.2
         matlabpool(desiredCores)
     elseif currVer >= 8.3 %if matlab r2014a or later
         currClust = parcluster('local');
@@ -266,7 +266,7 @@ elseif strcmp(currEnv,'SAVIOcluster')
     if ~strcmp(job_storage,'default')
         directoryLegit = false;
         
-        if ~any(regexp(job_storage,'[\/]'));
+        if ~any(regexp(job_storage,'[\/]'))
             fprintf(['File path (''%s'') must contain directory ',...
                 'slashes (i.e. ''/'').\n',...
                 '-----Using default instead-----\n'],job_storage)
@@ -277,7 +277,7 @@ elseif strcmp(currEnv,'SAVIOcluster')
             %subdirectories to be specified)
             for root = 1:length(jobStorageSpl)-1
                 jobStorageRoot = fullfile(jobStorageSpl{1:end-root});
-                if job_storage(1)=='/';
+                if job_storage(1)=='/'
                     jobStorageRoot=['/',jobStorageRoot];
                 end
                 if exist(jobStorageRoot,'dir')
@@ -338,7 +338,7 @@ elseif strcmp(currEnv,'SAVIOcluster')
     
     
     %Open the matlab pool
-    if currVer == 8.2;
+    if currVer == 8.2
         matlabpool(desiredCores)
     elseif currVer >= 8.3 %if matlab r2014a or later
         currClust.NumWorkers=desiredCores;
@@ -365,7 +365,7 @@ end
 %Set pool to not time out
 if currVer >= 8.3 %if matlab r2014a or later
     currPool.IdleTimeout=inf;
-    if currPool.IdleTimeout==inf;
+    if currPool.IdleTimeout==inf
         fprintf('Pool will not time out.\n')
     else
         fprintf('Pool IdleTimeout is: %s minutes.\n',currPool.IdleTimeout);

@@ -32,14 +32,14 @@ end
 xlabel('VARX')
 ylabel('VARY')
 title(sprintf('My graph with Cubehelix'));
-cc=colorbar();
-colormap(GRAD)
-fprintf('Cubehelix_niceplot had to transform you z data so they can be color ploted\nby multiplying by 10^%d and substracting %f\nNow it is going to change the z colormap to reflect the actual values\n', x,Slide); 
-ChangeZ=input('If you prefer not type "0" otherwise "1"\n');
-if ChangeZ==1
-    YTL = get(cc, 'YTickLabel');
-    YTL_new = str2num(YTL)/10^x - Slide;
-    YTL_new = num2str(round(YTL_new.*10^(x-1))./10^(x-1));
-    set(cc, 'YTickLabel',YTL_new)%here you correct the value of the z axis that you artificially multiplied by 10^x
-end
+ cc=colorbar();
+ colormap(GRAD)
+ fprintf('Cubehelix_niceplot had to transform you z data so they can be color ploted\nby multiplying by 10^%d and substracting %f\nNow it is going to change the z colormap to reflect the actual values\n', x,Slide); 
+ ChangeZ=input('If you prefer not type "0" otherwise "1"\n');
+ if ChangeZ==1
+     YTL = get(cc, 'YTickLabel');
+     YTL_new = str2num(YTL)/10^x - Slide;
+     YTL_new = num2str(round(YTL_new.*10^(x-1))./10^(x-1));
+     set(cc, 'YTickLabel',YTL_new)%here you correct the value of the z axis that you artificially multiplied by 10^x
+ end
 hold off
